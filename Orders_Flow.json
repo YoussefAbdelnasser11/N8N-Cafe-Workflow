@@ -1,0 +1,230 @@
+{
+  "name": "Orders Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Orders",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Your Name"
+            },
+            {
+              "fieldLabel": "Order",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Cappuccino"
+                  },
+                  {
+                    "option": "Iced Latte"
+                  },
+                  {
+                    "option": "Espresso"
+                  },
+                  {
+                    "option": "Croissant"
+                  },
+                  {
+                    "option": "Mocha"
+                  },
+                  {
+                    "option": "Brownie"
+                  },
+                  {
+                    "option": "Green Tea"
+                  },
+                  {
+                    "option": "Hot Chocolate"
+                  },
+                  {
+                    "option": "Cold Brew"
+                  },
+                  {
+                    "option": "Americano"
+                  },
+                  {
+                    "option": "Donut"
+                  },
+                  {
+                    "option": "Flat White"
+                  },
+                  {
+                    "option": "Macchiato"
+                  },
+                  {
+                    "option": "Muffin "
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Price",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "53b3d804-25dc-4e3c-9944-eccd57e88d6e",
+      "name": "On form submission",
+      "webhookId": "4f0f846c-66a6-4595-87ac-9d71d673a101"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1hOFvlLZEt1hYec1jzsJiGi2N3EYVcloYxLwt5Uo-ny8",
+          "mode": "list",
+          "cachedResultName": "Cafe orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hOFvlLZEt1hYec1jzsJiGi2N3EYVcloYxLwt5Uo-ny8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hOFvlLZEt1hYec1jzsJiGi2N3EYVcloYxLwt5Uo-ny8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Customer Name": "={{ $json.Name }}",
+            "Order": "={{ $json.Order }}",
+            "Price": "={{ $json.Price }} USD"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Price",
+              "displayName": "Price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        280,
+        40
+      ],
+      "id": "ea0f1977-dd2b-4014-917a-07d3e487899e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RY7rdNVeYwDY6dPW",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "youssef.abdalnasser54@gmail.com",
+        "subject": "=New Order Placed",
+        "emailType": "text",
+        "message": "=Hi Barista,\n\nA new order has been placed:\n\nCustomer: {{ $json.Name }}\nOrder: {{ $json.Order }}\nTotal Price: {{ $json.Price }} USD\n\nPlease prepare it as soon as possible.\n\nThanks,  \nCashier System",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        260,
+        -220
+      ],
+      "id": "502b448f-d7b7-4e75-9c3e-79aecfd4eca9",
+      "name": "Gmail",
+      "webhookId": "6f3da83c-f202-44fd-9a98-6290addc1d18",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZEh9k0PrANPxB0e1",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        []
+      ]
+    },
+    "Gmail": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4dad906f-c1b7-47c5-89e7-7e42b4fe38eb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "42b296de8e6ed15d232925b66cd240f8d57407dac024b16a8ff33774eeff0de4"
+  },
+  "id": "7AAt1DyebhQw59DK",
+  "tags": [
+    {
+      "name": "LinkedIN",
+      "id": "GYE8LJmcj9IC9YxE",
+      "createdAt": "2025-06-19T15:33:37.622Z",
+      "updatedAt": "2025-06-19T15:33:37.622Z"
+    }
+  ]
+}

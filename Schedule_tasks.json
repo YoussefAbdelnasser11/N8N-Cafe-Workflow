@@ -1,0 +1,149 @@
+{
+  "name": "Schedule tasks",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1c4aa794-df8e-40ef-b24c-1a5ab4499c55",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "youssef.abdalnasser54@gmail.com",
+        "subject": "Your Tasks for Today - Café Shift",
+        "emailType": "text",
+        "message": "=Hello [Staff],\n\nHere are your tasks for today:\n\n{{ $json.tasksTest }}\n\nThanks,  \nMr. Youssef",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        660,
+        0
+      ],
+      "id": "71d2f7a8-34d8-4398-ba2c-303b43e07e3a",
+      "name": "Gmail",
+      "webhookId": "a732258c-3c2e-455a-b362-03d2cab11f39",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "8UH0fADGGLKwFN1u",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1i30fRc0XahGEqmUrYUUEtud8eYjNG0LxmhSjX3CRx5Y",
+          "mode": "list",
+          "cachedResultName": "Staff's Tasks",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1i30fRc0XahGEqmUrYUUEtud8eYjNG0LxmhSjX3CRx5Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1i30fRc0XahGEqmUrYUUEtud8eYjNG0LxmhSjX3CRx5Y/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        0
+      ],
+      "id": "d69a099f-2614-4b77-baf2-9e89d89680e2",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Svs0GXB66DG2VlpF",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "tasks = []\nfor item in _input.all():\n    tasks.append(item.json.Tasks)\ntasks_text = '\\n'.join(tasks)\nreturn [{'json': {'tasksTest': tasks_text}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "8224d9e8-2125-4fbd-9fcd-7a801dc19765",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "afbd1239-a76b-43e6-8d8a-84e6a2388634",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "42b296de8e6ed15d232925b66cd240f8d57407dac024b16a8ff33774eeff0de4"
+  },
+  "id": "vshm9P63aAGN3sU7",
+  "tags": [
+    {
+      "name": "LinkedIN",
+      "id": "GYE8LJmcj9IC9YxE",
+      "createdAt": "2025-06-19T15:33:37.622Z",
+      "updatedAt": "2025-06-19T15:33:37.622Z"
+    }
+  ]
+}
