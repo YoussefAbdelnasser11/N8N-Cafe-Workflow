@@ -5,14 +5,13 @@ This project includes two automation workflows built with [n8n](https://n8n.io) 
 
 ---
 
+## 🔧 Workflows Included
 
 n8n-cafe-automation/
 │
 ├── README.md
 ├── Schedule_tasks.json
 └── Orders_Flow.json
-
-## 🔧 Workflows Included
 
 ### 1. 📆 `Schedule_tasks.json`
 **Purpose:**  
@@ -51,7 +50,7 @@ Handles customer orders submitted via a form and automates notification and stor
 - [n8n](https://n8n.io)
 - Google Sheets
 - Gmail (OAuth2)
-- JavaScript (Code node)
+- Python (Code node)
 
 ---
 
